@@ -19,4 +19,4 @@ inputs:
     default: './package.json'
 runs:
   using: node20
-  main: '../../lib/update-package-version/index.js'
+  main: '../../github-actions-src/lib/update-package-version/index.js'

@@ -9,7 +9,7 @@
     "target": "ES2022",
     "module": "commonjs",
     "sourceMap": true,
-    "outDir": "./lib",
+    "outDir": "../github-actions-src/lib",
     "rootDir": "./src",
     "removeComments": true,
 
