@@ -1,8 +1,8 @@
 #!/bin/bash
 
 projects=(
-    "github-actions-src:true:lib"
-    # Add more projects as needed, format: "directory:commit:output_folder"
+    "github-actions-src:yarn install && yarn build:true:lib"
+    # Add more projects as needed, format: "directory:build_command:commit:output_folder"
 )
 
 for config in "${projects[@]}"; do
@@ -11,17 +11,26 @@ for config in "${projects[@]}"; do
 
     # Extract the project configuration
     project_dir="${config_array[0]}"
-    commit_changes="${config_array[1]}"
-    output_folder="${config_array[2]}"
+    build_commands="${config_array[1]}"
+    commit_changes="${config_array[2]}"
+    output_folder="${config_array[3]}"
 
     echo "Building project: $project_dir"
 
     # Navigate to the project directory
     cd "$project_dir" || { echo "Failed to navigate to $project_dir"; exit 1; }
 
-    # Run the build command
-    if yarn build; then
-        echo "Build succeeded for $project_dir"
+    # Run build commands if they are provided
+    if [ -n "$build_commands" ]; then
+        echo "Running build commands for $project_dir"
+        IFS='&&' read -r -a commands <<< "$build_commands"
+        for cmd in "${commands[@]}"; do
+            echo "Executing: $cmd"
+            if ! eval "$cmd"; then
+                echo "Command failed: $cmd for $project_dir"
+                exit 1
+            fi
+        done
 
         # Check if the output directory exists
         if [ -d "$output_folder" ]; then
