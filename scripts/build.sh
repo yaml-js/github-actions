@@ -39,6 +39,9 @@ for config in "${projects[@]}"; do
             if [ "$commit_changes" = true ]; then
                 echo "Committing changes in the $output_folder folder"
 
+                git config --global user.email "build@yaml-js.com"
+                git config --global user.name "Build Bot"
+
                 # Add all new and updated files in the output directory
                 git add "$output_folder/"
 
