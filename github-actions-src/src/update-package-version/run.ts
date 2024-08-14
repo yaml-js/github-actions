@@ -1,2 +1,2 @@
-import { UpdatePackageVersion } from "./action";
+import { UpdatePackageVersion } from './action';
 UpdatePackageVersion();

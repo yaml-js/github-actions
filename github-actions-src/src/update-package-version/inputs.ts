@@ -1,10 +1,10 @@
-import { InputsSchema } from "../action";
-import { ActionInputs, actionInputsSchema } from "../actionInputs";
+import { InputsSchema } from '../action';
+import { ActionInputs, actionInputsSchema } from '../actionInputs';
 
 export interface Inputs extends ActionInputs {
   path: string;
   tag: string;
-  prefix: string
+  prefix: string;
 }
 
 export const inputsSchema: InputsSchema = {
@@ -12,4 +12,4 @@ export const inputsSchema: InputsSchema = {
   path: 'path',
   tag: 'tag',
   prefix: 'prefix'
-}
+};

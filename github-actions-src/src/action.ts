@@ -1,34 +1,40 @@
-import * as core from '@actions/core';
+import { ActionInputs } from "./actionInputs";
+import { createLogger, Logger } from "./logger";
+import { PlatformServices } from "./platformServices";
 
+export type Action = () => Promise<void>;
+export type ActionFunc = (logger: Logger, inputs: any) => Promise<void>;
 export type InputsSchema = {
   [key: string]: string;
-}
+};
 
-export const setFailed = (error: Error | unknown | string) => {
+export const setFailed = (platformServices: PlatformServices, error: Error | unknown | string) => {
   if (error instanceof Error) {
-    core.setFailed(error.message);
+    platformServices.setFailed(error.message);
   } else if (typeof error === 'string') {
-    core.setFailed(error);
+    platformServices.setFailed(error);
   } else {
-    core.setFailed(JSON.stringify(error));
+    platformServices.setFailed(JSON.stringify(error));
   }
-}
+};
 
-const getInputs = <T>(schema: InputsSchema): T => {
+const getInputs = <T>(platformServices: PlatformServices, schema: InputsSchema): T => {
   const inputs: any = {};
   for (const key in schema) {
-    inputs[key] = core.getInput(schema[key]);
+    inputs[key] = platformServices.getInput(schema[key]);
   }
   return inputs as T;
-}
+};
 
-export const createAction = <T>(schema: InputsSchema, func: (inputs: T) => Promise<void>) => {
-  return async () => {
+export const createAction = <T extends ActionInputs>(platformServices: PlatformServices, name: string, schema: InputsSchema, func: ActionFunc) => {
+  const result = async () => {
+    const inputs = getInputs<T>(platformServices, schema);
     try {
-      const inputs = getInputs<T>(schema);
-      await func(inputs);
+      await func(createLogger(platformServices, name, inputs.logLevel), inputs);
     } catch (error) {
-      setFailed(error);
+      setFailed(platformServices, error);
     }
   };
-}
+
+  return result;
+};

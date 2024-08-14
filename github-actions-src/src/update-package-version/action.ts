@@ -1,15 +1,15 @@
-import glob from '@actions/glob'
-import core from '@actions/core'
-import fs from 'fs/promises'
+import glob from 'fast-glob';
+import fs from 'fs/promises';
 
-import { createAction } from "../action";
-import { createLogger } from "../logger";
-import { Inputs, inputsSchema } from "./inputs";
+import { Action, createAction } from '../action';
+import { Logger } from '../logger';
+import { Inputs, inputsSchema } from './inputs';
+import { PlatformServices } from '../platformServices';
+import { GitHubPlatformServices } from '../githubPlatformServices';
 
-export const UpdatePackageVersion = () => {
-  const action = createAction(inputsSchema, async (inputs: Inputs) => {
-    const logger = createLogger("UpdatePackageVersion", inputs.logLevel);
-    logger.debug(() => "Running UpdatePackageVersion action", inputs);
+export const UpdatePackageVersion = (platform: PlatformServices = GitHubPlatformServices()): Action => {
+  return createAction(platform, "UpdatePackageVersion", inputsSchema, async (logger: Logger, inputs: Inputs) => {
+    logger.debug(() => 'Running UpdatePackageVersion action', inputs);
 
     const tag = inputs.tag;
     let version = tag;
@@ -18,24 +18,22 @@ export const UpdatePackageVersion = () => {
     }
     logger.debug(() => `Using ${version} as package version`);
 
-    const patterns = [inputs.path, '!**/node_modules']
-    const globber = await glob.create(patterns.join('\n'))
-    for await (const file of globber.globGenerator()) {
+    const globber =  glob.stream(inputs.path, {ignore: ['**/node_modules/**']});
+    for await (const file of globber) {
       // Update package version in file
-      const packageString = await fs.readFile(file, { encoding: 'utf-8' })
-      const packageJson = JSON.parse(packageString)
-      if (packageJson['version'] === "${FROM_TAG}") {
-        packageJson['version'] = version
-        const updatedJson = JSON.stringify(packageJson, null, 2)
+      const packageString = await fs.readFile(file, { encoding: 'utf-8' });
+      const packageJson = JSON.parse(packageString);
+      if (packageJson['version'] === '${FROM TAG}') {
+        packageJson['version'] = version;
+        const updatedJson = JSON.stringify(packageJson, null, 2);
 
-        logger.info(() => `Updating version in ${file}`)
-        logger.debug(() => `Updating file ${file} with version ${version}`, updatedJson)
+        logger.info(() => `Updating version in ${file}`);
+        logger.debug(() => `Updating file ${file} with version ${version}`, updatedJson);
 
-        await fs.writeFile(file, updatedJson, { encoding: 'utf-8' })
+        await fs.writeFile(file, updatedJson, {flush: true});
+        logger.info(() => `Version updated in ${file}`);
       }
     }
-    core.setOutput('package-version', version)
-  })
-
-  action();
-}
+    platform.setOutput('package-version', version);
+  });
+};
