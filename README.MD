@@ -6,13 +6,14 @@ This repository contains a suite of build tools for use in yaml-js projects. It 
 
 The repository is organized as follows:
 
+```
 /.github/
 └── workflows/
 /github/
 └── actions/
     ├── update-package-version/
     └── [future-action]/
-
+```
 
 - **`.github/workflows/`**: Contains workflow files specific to this repository, defining how GitHub Actions are run within the project.
 - **`github/`**: Houses the packages and scripts used to develop and maintain the GitHub Actions.
@@ -46,11 +47,11 @@ Contributions are welcome! If you have ideas for new tools or improvements to ex
 
 Adding a New Action
 
-	1.	Create a new directory under github/actions/ with the name of your action.
-	2.	Develop your action and include a README.md file with clear usage instructions.
-	3.	Update the root README.md file to include your new action in the Available Actions section.
+1. Create a new directory under github/actions/ with the name of your action.
+2. Develop your action and include a README.md file with clear usage instructions.
+3. Update the root README.md file to include your new action in the Available Actions section.
 
-License
+## License
 
 This repository is licensed under the MIT License. See the LICENSE file for more details.
 
