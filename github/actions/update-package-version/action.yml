@@ -1,0 +1,22 @@
+name: 'Update Packages Version'
+description: 'Updates packages version from tag name'
+author: 'yaml-js'
+inputs:
+  log-level:
+    description: 'The task log level. Use one of the following DEBUG, INFO, WARN, ERROR'
+    required: false
+    default: 'info'
+  tag:
+    description: 'The tag to extract the version from'
+    required: true
+  prefix:
+    description: 'The prefix to be removed from the tag name'
+    required: false
+    default: 'v'
+  path:
+    description: The path to the package.json file (glob patterns are supported to enable multi package updates)
+    required: false
+    default: './package.json'
+runs:
+  using: node20
+  main: '../../lib/update-package-version/index.js'

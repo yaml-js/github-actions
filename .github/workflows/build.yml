@@ -1,0 +1,30 @@
+name: Build
+on:
+  push:
+    branches: [ "**", "!main" ]
+    paths-ignore:
+      - 'README.md'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'LICENSE'
+      - '.gitignore'
+  pull_request:
+    branches: [ "main" ]
+    paths-ignore:
+      - 'README.md'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'LICENSE'
+      - '.gitignore'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    uses: yaml-js/.github/.github/workflows/jobs.build.yml@main
+    secrets: inherit
+    permissions:
+      contents: write
+    with:
+      KEY: ${{ github.sha }}
+      EVENT: ${{ github.event_name }}
