@@ -9,15 +9,21 @@ The repository is organized as follows:
 ```
 /.github/
 └── workflows/
-/github/
-└── actions/
-    ├── update-package-version/
+/github-actions
+└── update-package-version/
+└── [future-action]/
+/github-actions-src
+└── lib
+    └── update-package-version/
+    └── [future-action]/
+└── src
+    └── update-package-version/
     └── [future-action]/
 ```
 
 - **`.github/workflows/`**: Contains workflow files specific to this repository, defining how GitHub Actions are run within the project.
-- **`github/`**: Houses the packages and scripts used to develop and maintain the GitHub Actions.
-- **`github/actions/`**: Contains individual GitHub Action definitions. Each action is organized within its own directory.
+- **`github-actions/`**: Contains individual GitHub Action definitions. Each action is organized within its own directory.
+- **`github-actions-src/`**: Houses the packages and scripts used to develop and maintain the GitHub Actions.
 
 ## Tools
 
