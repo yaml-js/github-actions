@@ -45,7 +45,7 @@ A collection of GitHub Actions developed to facilitate continuous integration (C
 
 Contributions are welcome! If you have ideas for new tools or improvements to existing ones, feel free to open an issue or submit a pull request.
 
-Adding a New Action
+### Adding a New Action
 
 1. Create a new directory under github/actions/ with the name of your action.
 2. Develop your action and include a README.md file with clear usage instructions.
