@@ -117,5 +117,5 @@ jobs:
     - name: Generate Converage and Test Badges
       uses: gaelgirodon/ci-badges-action@v1.5.0
       with:
-        gist-id: 5a72d5db890cc90ad001b05d6ff71f73
+        gist-id: 202111948b143151aac80d6bcf2f603f
         token: ${{ secrets.GIST_TOKEN }}
