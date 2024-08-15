@@ -4,8 +4,9 @@ export interface InputOptions {
 }
 
 export interface PlatformServices {
+  getEnv(name: string): string;
   getInput(name: string, options?: InputOptions): string;
-  getBooleanInput(name: string, options?: InputOptions): boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setOutput(name: string, value: any): void;
   setFailed(message: string | Error): void;
   debug(message: string): void;
