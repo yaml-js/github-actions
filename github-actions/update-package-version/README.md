@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Update package.json version
-        uses: yaml-js/build/github-actions/update-package-version-action@v1
+        uses: yaml-js/build/github-actions/update-package-version@v1
         with:
           path: './**/package.json'
           tag: ${{ github.ref_name }}
