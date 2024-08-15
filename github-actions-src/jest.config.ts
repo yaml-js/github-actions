@@ -3,7 +3,7 @@ export default {
   clearMocks: true,
   collectCoverage: false,
   collectCoverageFrom: ['./src/**/*.ts'],
-  coveragePathIgnorePatterns: ['src/githubPlatformServices.ts'],
+  coveragePathIgnorePatterns: ['./src/update-package-version/run.ts'],
   coverageDirectory: 'build/reports/coverage',
   coverageProvider: 'babel',
   coverageReporters: ['text', 'cobertura'],

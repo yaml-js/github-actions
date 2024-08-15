@@ -1,2 +1,3 @@
 import { UpdatePackageVersion } from './action';
-UpdatePackageVersion();
+const action = UpdatePackageVersion();
+action();

@@ -8,9 +8,10 @@ import { PlatformServices } from '../platformServices';
 import { GitHubPlatformServices } from '../githubPlatformServices';
 
 export const UpdatePackageVersion = (platform: PlatformServices = GitHubPlatformServices()): Action => {
-  return createAction(platform, "UpdatePackageVersion", inputsSchema, async (logger: Logger, inputs: Inputs) => {
+  return createAction<Inputs>(platform, "UpdatePackageVersion", inputsSchema, async (logger: Logger, inputs: Inputs) => {
     logger.debug(() => 'Running UpdatePackageVersion action', inputs);
 
+    const workspaceDir = platform.getEnv('GITHUB_WORKSPACE') || process.cwd();
     const tag = inputs.tag;
     let version = tag;
     if (inputs.tag.toLowerCase().startsWith(inputs.prefix.toLowerCase())) {
@@ -18,9 +19,10 @@ export const UpdatePackageVersion = (platform: PlatformServices = GitHubPlatform
     }
     logger.debug(() => `Using ${version} as package version`);
 
-    const globber =  glob.stream(inputs.path, {ignore: ['**/node_modules/**']});
+    const globber =  glob.stream(inputs.path, {absolute: true, cwd: workspaceDir, ignore: ['**/node_modules/**']});
     for await (const file of globber) {
       // Update package version in file
+
       const packageString = await fs.readFile(file, { encoding: 'utf-8' });
       const packageJson = JSON.parse(packageString);
       if (packageJson['version'] === '${FROM TAG}') {
