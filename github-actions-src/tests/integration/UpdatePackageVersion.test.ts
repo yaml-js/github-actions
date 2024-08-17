@@ -5,7 +5,7 @@ import {RunTarget, RunOptions} from 'github-action-ts-run-api';
 import { createLocalRepo } from '../utils'
 import { UpdatePackageVersion } from '../../src/update-package-version/action';
 
-describe('UpdatePackageVersion integrations tests', () => {
+describe('UpdatePackageVersion action integrations tests', () => {
 
   const jsFile = path.join(__dirname, '../../lib/update-package-version/index.js');
   const actionFile = path.join(__dirname, '../../../github-actions/update-package-version/action.yml');
@@ -31,7 +31,7 @@ describe('UpdatePackageVersion integrations tests', () => {
       .setWorkspaceDir(folder)
     );
 
-    let actualVersion = JSON.parse(fs.readFileSync(path.join(folder, 'package.json'), 'utf8'))["version"];
+    const actualVersion = JSON.parse(fs.readFileSync(path.join(folder, 'package.json'), 'utf8'))["version"];
     expect(actualVersion).toEqual("0.1.1");
 
     expect(res.isSuccess).toEqual(true);
@@ -40,7 +40,7 @@ describe('UpdatePackageVersion integrations tests', () => {
     fs.rmSync(folder, { recursive: true })
   });
 
-  it('Scenario 01: Version is replaced on the file when input is a single file', async () => {
+  it('Scenario 02: Version is replaced on the file when input is a single file', async () => {
     const folder = createLocalRepo();
     const target = RunTarget.jsFile(jsFile, actionFile);
     const res = await target.run(RunOptions.create()
@@ -56,7 +56,7 @@ describe('UpdatePackageVersion integrations tests', () => {
       .setWorkspaceDir(folder)
     );
 
-    let actualVersion = JSON.parse(fs.readFileSync(path.join(folder, 'package.json'), 'utf8'))["version"];
+    const actualVersion = JSON.parse(fs.readFileSync(path.join(folder, 'package.json'), 'utf8'))["version"];
     expect(actualVersion).toEqual("0.1.1");
 
     expect(res.isSuccess).toEqual(true);
