@@ -1,0 +1,14 @@
+name: 'Clear Cache'
+description: 'Clears '
+author: 'yaml-js'
+inputs:
+  log-level:
+    description: 'The task log level. Use one of the following DEBUG, INFO, WARN, ERROR'
+    required: false
+    default: 'info'
+  prefix:
+    description: 'The cache key prefix. If none is specified, all cache entries are removed'
+    required: false
+runs:
+  using: node20
+  main: '../../github-actions-src/lib/clear-cache/index.js'

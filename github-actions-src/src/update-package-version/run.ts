@@ -1,3 +1,3 @@
-import { UpdatePackageVersion } from './action';
-const action = UpdatePackageVersion();
-action();
+import { UpdatePackageVersion } from './action'
+const action = UpdatePackageVersion()
+action()

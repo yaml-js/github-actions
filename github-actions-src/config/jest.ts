@@ -1,12 +1,13 @@
 export default {
-  displayName: '@github-actions/src',
+  rootDir: "../",
+  displayName: 'github-actions-src',
+  coveragePathIgnorePatterns: [],
   clearMocks: true,
   collectCoverage: false,
-  collectCoverageFrom: ['./src/**/*.ts'],
-  coveragePathIgnorePatterns: ['./src/update-package-version/run.ts'],
+  collectCoverageFrom: ['src/**/*.ts'],
   coverageDirectory: 'build/reports/coverage',
   coverageProvider: 'babel',
-  coverageReporters: ['text', 'cobertura'],
+  coverageReporters: ['text', 'cobertura', 'lcov'],
   coverageThreshold: {
     global: {
       lines: 80,
@@ -26,9 +27,6 @@ export default {
   ],
   transform: { '^.+\\.ts?$': 'ts-jest' },
   testEnvironment: 'node',
-  testMatch: ['**/test/**/*.test.[jt]s?(x)'],
-  testPathIgnorePatterns: ['/node_modules/'],
-  moduleNameMapper: {
-    '@/(.*)': '<rootDir>/src/$1',
-  },
+  testMatch: ['<rootDir>/tests/**/*.test.[jt]s?(x)'],
+  testPathIgnorePatterns: ['node_modules'],
 };

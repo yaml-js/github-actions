@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Update package.json version
         uses: yaml-js/build/github-actions/update-package-version@v1
@@ -61,13 +61,6 @@ jobs:
 |-------------------|-------------------------------------------------------------------------------|
 | `package-version` | The version used to update `package.json` files                               |
 
-### Example
-
-To trigger this action, create a new Git tag that follows semantic versioning, such as v1.2.3. When the tag is pushed to the repository, this action will automatically update the package.json version to 1.2.3.
-
-#### Notes
-- Ensure your repository is set up to use Git tags for versioning.
-- Make sure to check that the version in package.json matches the Git tag to maintain consistency.
 
 ### Contributing
 

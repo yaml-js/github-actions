@@ -3,7 +3,7 @@ import path from 'path';
 
 import { createLocalRepo } from '../utils'
 import { ActionInputs } from '../../src/actionInputs';
-import { InputOptions, PlatformServices } from '../../src/platformServices';
+import { InputOptions, GitHubApiClient, Context, PlatformServices } from '../../src/platformServices';
 import { UpdatePackageVersion } from '../../src/update-package-version/action';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -12,17 +12,20 @@ const createPlatformServices = <T extends ActionInputs>(env: Record<string, stri
     getEnv(name: string): string { return env[name] || '' },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getInput(name: string, _options?: InputOptions): string { return inputs[name] },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setOutput(name: string, value: any) { outputs[name] = value },
+    setOutput<T>(name: string, value: T) { outputs[name] = value },
     setFailed(message: string | Error) { outputs["FAILED"] = message },
     debug(message: string) { console.debug(message) },
     error(message: string | Error) { console.error(message) },
     warning(message: string | Error) { console.warn(message) },
     info(message: string) { console.info(message) },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getGitHubApiClient(_token) { return {} as GitHubApiClient },
+    getContext() { return {} as Context },
+    getToken() { return "" }
   } as PlatformServices
 }
 
-describe('UpdatePackageVersion unit tests', () => {
+describe('UpdatePackageVersion action unit tests', () => {
 
   it('Scenario 01: Version is replaced when input is a single file', async () => {
     const folder = createLocalRepo();
