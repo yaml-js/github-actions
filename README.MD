@@ -1,4 +1,4 @@
-# yaml-js Build Tools Monorepo
+# YAML-JS Build Tools Monorepo
 
 This repository contains a suite of build tools for use in yaml-js projects. It includes GitHub Actions designed to streamline and automate project workflows, ensuring consistent and efficient continuous integration and deployment.
 
