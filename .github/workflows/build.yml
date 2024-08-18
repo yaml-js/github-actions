@@ -46,7 +46,6 @@ jobs:
       run: ./scripts/build.sh
       shell: bash
     - uses: actions/cache/save@v4
-      id: build-cache
       with:
         path: ./*
         key: ${{ github.sha }}-build
@@ -72,7 +71,6 @@ jobs:
       run: ./scripts/run-unit-tests.sh
       shell: bash
     - uses: actions/cache/save@v4
-      id: build-cache
       with:
         path: ./*
         key: ${{ github.sha }}-final
@@ -85,7 +83,7 @@ jobs:
     - uses: actions/cache/restore@v4
       with:
         path: ./*
-        key: ${{ inputs.KEY }}-final
+        key: ${{ github.sha }}-final
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
