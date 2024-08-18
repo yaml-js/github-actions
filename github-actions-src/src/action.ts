@@ -8,7 +8,7 @@ export type InputsSchema = {
   [key: string]: string
 }
 
-export const setFailed = (platformServices: PlatformServices, error: Error | unknown | string) => {
+export const setFailed = (platformServices: PlatformServices, error: unknown) => {
   if (error instanceof Error) {
     platformServices.setFailed(error.message)
   } else if (typeof error === 'string') {

@@ -24,7 +24,8 @@ export const createLogger = (platform: PlatformServices, name: string, tag?: str
   const log = (level: LogLevel, logFunc: LogWriter, message: MessageProvider, args: any[]) => {
     if (level >= logLevelValue) {
       const argsString = args && args.length > 0 ? `args:\n ${JSON.stringify(args)}` : ''
-      logFunc(`[${name}${tag ? `:${tag}` : ''}] ${message()} ${argsString}`)
+      const logTag = tag ? `:${tag}` : ''
+      logFunc(`[${name}${logTag}] ${message()} ${argsString}`)
     }
   }
 

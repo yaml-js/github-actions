@@ -23,7 +23,7 @@ export const ClearCache = (platform: PlatformServices = GitHubPlatformServices()
 
     const caches = res.data.actions_caches
     for (const cache of caches) {
-      if (cache.id !== undefined && (inputs.prefix === undefined || inputs.prefix === '' || (cache.key && cache.key.startsWith(inputs.prefix)))) {
+      if (cache.id !== undefined && (inputs.prefix === undefined || inputs.prefix === '' || cache.key?.startsWith(inputs.prefix))) {
         logger.debug(() => `DELETE /repos/${owner}/${repo}/actions/caches/${cache.id}`)
         await octokit.request('DELETE /repos/{owner}/{repo}/actions/caches/{cache_id}', { ...options, cache_id: cache.id })
         logger.info(() => `Deleted cache ${cache.key}`)

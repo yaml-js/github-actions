@@ -4,7 +4,7 @@ import { PlatformServices, InputOptions, GitHubApiClient, ApiOperation, ApiRespo
 
 class ApiClient implements GitHubApiClient {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private octokit: any | undefined = undefined
+  private octokit: any = undefined
   private headers = { 'X-GitHub-Api-Version': '2022-11-28' }
 
   constructor(private token: string) {}
@@ -28,7 +28,7 @@ class ApiClient implements GitHubApiClient {
 export const GitHubPlatformServices = () => {
   return {
     getEnv(name: string): string {
-      return process.env[name] || ''
+      return process.env[name] ?? ''
     },
     getInput(name: string, options?: InputOptions): string {
       return core.getInput(name, options)
@@ -61,7 +61,7 @@ export const GitHubPlatformServices = () => {
       return github.context
     },
     getToken() {
-      return process.env.GITHUB_TOKEN || ''
+      return process.env.GITHUB_TOKEN ?? ''
     }
   } as PlatformServices
 }
