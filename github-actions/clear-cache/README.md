@@ -5,7 +5,7 @@ This GitHub clears workflow cached entries.
 ## Features
 
 - Clear all repository cache entries
-- Clear all repository cache entries whose key starts by the given prefix
+- Clear all repository cache entries whose key starts with the given prefix
 
 ## Usage
 
@@ -29,6 +29,7 @@ jobs:
       - name: Clear cache items for the commit
         uses: yaml-js/build/github-actions/clear-cache@v1
         with:
+          token: ${{ secrets.TOKEN_WITH_REPO_SCOPE }}
           prefix: ${{ github.sha }}
 ```
 
@@ -36,6 +37,7 @@ jobs:
 
 | Name        | Description                                           | Required | Default          |
 |-------------|-------------------------------------------------------|----------|------------------|
+| `token`     | The GitHub token. Please note the token must have repo scope, for more details check [here](https://docs.github.com/en/rest/actions/cache?apiVersion=2022-11-28#delete-a-github-actions-cache-for-a-repository-using-a-cache-id')         | yes      |                  |
 | `prefix`    | The prefix to use when matching cathc entries         | No       | ``               |
 | `log-level` | Defines the level of details for the execution output | No       | `INFO`           |
 

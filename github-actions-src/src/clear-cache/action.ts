@@ -8,7 +8,7 @@ export const ClearCache = (platform: PlatformServices = GitHubPlatformServices()
   return createAction<Inputs>(platform, 'ClearCache', inputsSchema, async (logger: Logger, inputs: Inputs) => {
     logger.debug(() => 'Running ClearCache action', inputs)
 
-    const octokit = platform.getGitHubApiClient(platform.getToken())
+    const octokit = platform.getGitHubApiClient(inputs.token)
     const owner = platform.getContext().repo.owner
     const repo = platform.getContext().repo.repo
 
