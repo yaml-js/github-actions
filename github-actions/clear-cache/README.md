@@ -29,7 +29,7 @@ jobs:
       - name: Clear cache items for the commit
         uses: yaml-js/build/github-actions/clear-cache@v1
         with:
-          token: ${{ secrets.TOKEN_WITH_REPO_SCOPE }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           prefix: ${{ github.sha }}
 ```
 
