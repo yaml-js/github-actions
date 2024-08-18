@@ -9,6 +9,9 @@ inputs:
   prefix:
     description: 'The cache key prefix. If none is specified, all cache entries are removed'
     required: false
+  token:
+    description: 'The GitHub token. Please note the token must have repo scope, for more details check https://docs.github.com/en/rest/actions/cache?apiVersion=2022-11-28#delete-a-github-actions-cache-for-a-repository-using-a-cache-id'
+    required: true
 runs:
   using: node20
   main: '../../github-actions-src/lib/clear-cache/index.js'

@@ -1,0 +1,18 @@
+# Project Information
+sonar.projectKey=yaml-js_build
+sonar.organization=yaml-js
+sonar.projectName=yaml-js Build Toolkit
+sonar.projectVersion=1.0
+
+# Language
+sonar.language=ts
+
+# Source Code Locations
+sonar.sources=./github-actions-src/src
+
+# Tests and Coverage
+sonar.typescript.lcov.reportPaths=./github-actions-src/build/reports/coverage/lcov.info
+sonar.tests=./github-actions-src/tests
+
+# Encoding of the source files
+sonar.sourceEncoding=UTF-8

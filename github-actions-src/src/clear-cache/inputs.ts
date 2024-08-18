@@ -3,9 +3,11 @@ import { ActionInputs, actionInputsSchema } from '../actionInputs'
 
 export interface Inputs extends ActionInputs {
   prefix: string
+  token: string
 }
 
 export const inputsSchema: InputsSchema = {
   ...actionInputsSchema,
-  prefix: 'prefix'
+  prefix: 'prefix',
+  token: 'token'
 }

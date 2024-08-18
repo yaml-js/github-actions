@@ -1,7 +1,7 @@
 export default {
   rootDir: "../",
   displayName: 'github-actions-src',
-  coveragePathIgnorePatterns: [],
+  coveragePathIgnorePatterns: ['./src/update-package-version/run.ts', './src/clear-cache/run.ts'],
   clearMocks: true,
   collectCoverage: false,
   collectCoverageFrom: ['src/**/*.ts'],

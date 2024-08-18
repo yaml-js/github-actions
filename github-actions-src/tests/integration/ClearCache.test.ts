@@ -49,10 +49,10 @@ describe('ClearCache action integrations tests', () => {
     try {
       const target = RunTarget.jsFile(jsFile, actionFile);
       const res = await target.run(RunOptions.create()
-        .setEnv({ GITHUB_TOKEN: "token" })
         .setGithubContext({ repository: repository, apiUrl: 'http://localhost:8384' })
         .setInputs({
           "log-level": "DEBUG",
+          token: "token",
           prefix: 'cache'
         })
       );
@@ -79,10 +79,10 @@ describe('ClearCache action integrations tests', () => {
       const action = ClearCache();
       const target = RunTarget.asyncFn(action, actionFile);
       const res = await target.run(RunOptions.create()
-        .setEnv({ GITHUB_TOKEN: "token" })
         .setGithubContext({ repository: repository, apiUrl: 'http://localhost:8384' })
         .setInputs({
           "log-level": "DEBUG",
+          token: "token",
           prefix: 'cache'
         })
       );
