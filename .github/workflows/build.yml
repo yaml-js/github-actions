@@ -19,118 +19,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  initialize:
-    name: Initialize CI environment
-    uses: yaml-js/.github/.github/workflows/jobs.initialize-ci.yml@main
-    secrets: inherit
-    with:
-      KEY: ${{ github.sha }}
-
-  build:
-    needs: [initialize]
+  publish_packages:
     name: Build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Enable Corepack
-      run: corepack enable
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22.x
-    - uses: actions/cache/restore@v4
-      with:
-        path: ./*
-        key: ${{ github.sha }}-workspace
-    - name: Build packages
-      run: ./scripts/build.sh
-      shell: bash
-    - uses: actions/cache/save@v4
-      with:
-        path: ./*
-        key: ${{ github.sha }}-build
-
-  unit-tests:
-    needs: [build]
-    name: Unit Tests
-    runs-on: ubuntu-latest
-    steps:
-    - name: Enable Corepack
-      run: corepack enable
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22.x
-    - uses: actions/cache/restore@v4
-      with:
-        path: ./*
-        key: ${{ github.sha }}-build
-    - name: Run unit tests
-      run: ./scripts/run-unit-tests.sh
-      shell: bash
-    - uses: actions/cache/save@v4
-      with:
-        path: ./*
-        key: ${{ github.sha }}-final
-
-  sonarcloud:
-    needs: [unit-tests]
-    name: SonarCloud
-    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/cache/restore@v4
-      with:
-        path: ./*
-        key: ${{ github.sha }}-final
-    - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-  coverage-reports:
+    uses: yaml-js/.github/.github/workflows/jobs.build.yml@main
+    secrets: inherit
     permissions:
+      contents: write
       pull-requests: write
-    needs: [unit-tests]
-    if: github.event_name == 'pull_request'
-    name: Code Coverage Reports
-    runs-on: ubuntu-latest
-    steps:
-    - name: Enable Corepack
-      run: corepack enable
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22.x
-    - uses: actions/cache/restore@v4
-      with:
-        path: ./*
-        key: ${{ github.sha }}-final
-    - name: Code Coverage Report
-      uses: irongut/CodeCoverageSummary@v1.3.0
-      with:
-        filename: /**/build/reports/coverage/cobertura-coverage.xml
-        badge: true
-        fail_below_min: true
-        format: markdown
-        hide_branch_rate: false
-        hide_complexity: true
-        indicators: true
-        output: both
-        thresholds: '60 80'
-    - name: Add Code Coverage Report on PR Comment
-      uses: marocchino/sticky-pull-request-comment@v2.9.0
-      with:
-        recreate: true
-        path: code-coverage-results.md
-    - name: Generate Converage and Test Badges
-      uses: gaelgirodon/ci-badges-action@v1.5.0
-      with:
-        gist-id: 202111948b143151aac80d6bcf2f603f
-        token: ${{ secrets.GIST_TOKEN }}
+    with:
+      KEY: ${{ github.sha }}
+      EVENT: ${{ github.event_name }}
+      REF: ${{ github.ref }}
+      BUILD_COMMAND: ./scripts/build.sh
+      TEST_COMMAND: ./scripts/run-unit-tests.sh
