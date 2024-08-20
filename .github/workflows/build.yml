@@ -79,7 +79,7 @@ jobs:
   sonarcloud:
     needs: [unit-tests]
     name: SonarCloud
-    if: ${{ github.ref == 'refs/remotes/origin/main' || github.ref == 'refs/heads/master' || inputs.EVENT == 'pull_request' }}
+    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/cache/restore@v4
@@ -96,7 +96,7 @@ jobs:
     permissions:
       pull-requests: write
     needs: [unit-tests]
-    if: ${{ github.event_name == 'pull_request' }}
+    if: github.event_name == 'pull_request'
     name: Code Coverage Reports
     runs-on: ubuntu-latest
     steps:
